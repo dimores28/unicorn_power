@@ -1,6 +1,7 @@
 <template>
    <nav class="navbar">
-      <nuxt-link exact active-class="active" to="/">Carts</nuxt-link>
+      <nuxt-link exact active-class="active" to="/">Home</nuxt-link>
+      <nuxt-link active-class="active" to="/cards">Cards</nuxt-link>
       <nuxt-link active-class="active" to="/about">About us</nuxt-link>
    </nav>
 </template>
