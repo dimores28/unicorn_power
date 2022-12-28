@@ -1,15 +1,14 @@
 export const state = () => ({
-   products: []
+   products: null,
 })
 
 export const getters =  {
    getProductsAll: (state) => {
       return state.products;
    },
-   getProductById: (state) => {
-      return (id) => {
-         return state.products.find(it => it === id);
-      }
+   //getProductById: state => id => state.products.find(pr => pr.id == id),
+   getProductById(state){
+      return []
    }
 }
 

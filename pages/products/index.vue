@@ -3,8 +3,8 @@
     <label for="category">
       Category:
       <select v-model="selectedCategory" id="category">
-        <option v-for="category in availableCategories" :value="category.id">
-          {{ category.name }}
+        <option v-for="category in availableCategories" :value="category" :key="category">
+          {{ category }}
         </option>
       </select>
     </label>
@@ -33,6 +33,10 @@ export default {
   async fetch({ store }) {
     if (!store.getters.products) {
       await store.dispatch("products/all");
+    }
+
+    if(!store.getters["category/category"]) {
+      await store.dispatch("category/AllCategories");
     }
   },
 
@@ -85,7 +89,7 @@ export default {
     },
 
     availableCategories() {
-      return [];
+      return this.$store.getters["category/getAllCategories"];
     },
   },
 
