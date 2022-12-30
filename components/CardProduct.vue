@@ -73,7 +73,7 @@ export default {
     font-weight: normal;
     text-align: center;
     font-size: 20px;
-    min-height: 54px;
+    min-height: 78px;
   }
 
   &__image {
