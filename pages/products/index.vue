@@ -17,7 +17,7 @@
 
     <div class="row">
       <product-card
-        v-for="prod in cards"
+        v-for="prod in productsAll"
         :key="prod.id"
         :title="prod.title"
         :imgSrc="prod.image"
@@ -35,14 +35,15 @@
 <script>
 import ProductCard from "@/components/CardProduct.vue";
 export default {
-  async fetch({ store }) {
-    // if (!store.getters.products) {
-    //   await store.dispatch("products/all");
-    // }
-    // if (!store.getters["category/category"]) {
-    //   await store.dispatch("category/AllCategories");
-    // }
-  },
+  name: "products-list",
+  // async fetch({ store }) {
+  //   if (!store.getters.products) {
+  //     await store.dispatch("products/all");
+  //   }
+  //   if (!store.getters["category/category"]) {
+  //     await store.dispatch("category/AllCategories");
+  //   }
+  // },
 
   components: {
     ProductCard,
@@ -106,18 +107,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 15px;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -15px;
-}
-
 .col {
   width: calc(100% / 3 - 30px);
   margin: 15px;
