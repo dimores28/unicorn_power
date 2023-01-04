@@ -3,12 +3,16 @@
     <h2 class="card__title">{{ title }}</h2>
     <img :src="imgSrc" :alt="category" class="card__image" />
 
-    <div class="card__desc">
+    <div
+      class="card__desc"
+      @click.stop="isFullDescription = !isFullDescription"
+    >
       <h3 class="card__desc_title">Description:</h3>
-      <p>
+      <p :class="{ show: isFullDescription }">
         {{ description }}
       </p>
     </div>
+
     <div class="card__price">Preice: {{ price }}</div>
   </div>
 </template>
@@ -44,10 +48,16 @@ export default {
     },
   },
   emits: ["open"],
+  data() {
+    return {
+      isFullDescription: false,
+    };
+  },
   methods: {
     openCard() {
       this.$emit("open");
     },
+    showDesc() {},
   },
 };
 </script>
@@ -100,10 +110,18 @@ export default {
 
     p {
       overflow: hidden;
-      height: 20px;
       position: absolute;
       bottom: 0;
       left: 0;
+      z-index: 100;
+      background: #fff;
+      max-height: 20px;
+      transition: max-height 0.2s ease-out;
+    }
+
+    .show {
+      max-height: 500px;
+      transition: max-height 0.4s ease-in;
     }
   }
 
