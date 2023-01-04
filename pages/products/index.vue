@@ -1,23 +1,21 @@
 <template>
   <section class="container">
     <div class="filters">
-      <label for="category">
-        Category:
-        <select v-model="selectedCategory" id="category" class="product-filter">
-          <option
-            v-for="category in availableCategories"
-            :value="category"
-            :key="category"
-          >
-            {{ category }}
-          </option>
-        </select>
-      </label>
+      <label for="category"> Category: </label>
+      <select v-model="selectedCategory" id="category" class="product-filter">
+        <option
+          v-for="category in availableCategories"
+          :value="category"
+          :key="category"
+        >
+          {{ category }}
+        </option>
+      </select>
     </div>
 
     <div class="row">
       <product-card
-        v-for="prod in productsAll"
+        v-for="prod in filteredProducts"
         :key="prod.id"
         :title="prod.title"
         :imgSrc="prod.image"
@@ -51,40 +49,8 @@ export default {
 
   data() {
     return {
-      cards: [
-        {
-          category: "men's clothing",
-          description:
-            "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-          id: 1,
-          image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-          price: 109.95,
-          rating: { rate: 3.9, count: 120 },
-          title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-        },
-        {
-          category: "men's clothing",
-          description:
-            "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
-          id: 2,
-          image:
-            "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
-          price: 22.3,
-          rating: { rate: 4.1, count: 259 },
-          title: "Mens Casual Premium Slim Fit T-Shirts ",
-        },
-        {
-          category: "women's clothing",
-          description:
-            "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-          id: 20,
-          image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-          price: 12.99,
-          rating: { rate: 3.6, count: 145 },
-          title: "DANVOUY Womens T Shirt Casual Cotton Short",
-        },
-      ],
       selectedCategory: null,
+      filteredProducts: [],
     };
   },
 
@@ -94,13 +60,63 @@ export default {
     },
 
     availableCategories() {
-      return this.$store.getters["category/getAllCategories"];
+      return [
+        "(no category)",
+        ...this.$store.getters["category/getAllCategories"],
+      ];
     },
   },
 
   methods: {
     openCart(id) {
       this.$router.push("/products/" + id);
+    },
+
+    filterByCategory() {
+      if (this.selectedCategory === this.availableCategories[0]) {
+        this.filteredProducts = [...this.productsAll];
+      } else {
+        this.filteredProducts = this.productsAll.filter(
+          (pr) =>
+            pr.category.toLowerCase() === this.selectedCategory.toLowerCase()
+        );
+      }
+    },
+
+    syncHash() {
+      const urlParams = new URLSearchParams(window.location.hash.substring(1));
+      const entries = Object.fromEntries(urlParams.entries());
+
+      if (entries.category) {
+        this.selectedCategory = entries.category;
+      }
+    },
+
+    updateHash() {
+      const urlParams = new URLSearchParams();
+
+      if (this.selectedCategory !== "") {
+        urlParams.append("category", this.selectedCategory);
+      }
+
+      window.location.hash = urlParams.toString();
+    },
+  },
+
+  created() {
+    this.selectedCategory = this.availableCategories[0];
+    window.addEventListener("hashchange", this.syncHash);
+    this.syncHash();
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("hashchange", this.syncHash);
+  },
+
+  watch: {
+    selectedCategory() {
+      this.filterByCategory();
+      this.updateHash();
     },
   },
 };
@@ -139,6 +155,18 @@ export default {
 @media screen and (max-width: 540px) {
   .col {
     width: calc(100% / 1 - 30px);
+  }
+
+  .filters {
+    text-align: center;
+
+    label {
+      display: none;
+    }
+  }
+
+  .product-filter {
+    width: 260px;
   }
 }
 </style>
