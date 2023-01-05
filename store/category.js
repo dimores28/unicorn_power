@@ -1,5 +1,5 @@
 export const state = () => ({
-   category: ["electronics","jewelery","men's clothing","women's clothing"]
+   category: []
 })
 
 export const getters =  {

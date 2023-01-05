@@ -34,14 +34,14 @@
 import ProductCard from "@/components/CardProduct.vue";
 export default {
   name: "products-list",
-  // async fetch({ store }) {
-  //   if (!store.getters.products) {
-  //     await store.dispatch("products/all");
-  //   }
-  //   if (!store.getters["category/category"]) {
-  //     await store.dispatch("category/AllCategories");
-  //   }
-  // },
+  async fetch({ store }) {
+    if (!store.getters.products) {
+      await store.dispatch("products/all");
+    }
+    if (!store.getters["category/category"]) {
+      await store.dispatch("category/AllCategories");
+    }
+  },
 
   components: {
     ProductCard,
