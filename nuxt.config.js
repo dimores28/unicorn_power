@@ -40,6 +40,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/google-fonts'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -54,6 +55,14 @@ export default {
 
   proxy: {
 
+  },
+
+  googleFonts: {
+    families: {
+      Roboto: {
+        wght: [400, 500]
+      },
+    }
   },
   
   // Build Configuration: https://go.nuxtjs.dev/config-build
