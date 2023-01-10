@@ -1,7 +1,5 @@
 <template>
   <div class="cart-product">
-    <!-- <button>X</button> -->
-
     <div class="cart-product__body">
       <a :href="`/products/${productId}`" class="cart-product__picture">
         <img :src="imgSrc" :alt="title" />
@@ -10,14 +8,67 @@
       <a :href="`/products/${productId}`" class="cart-product__title">{{
         title
       }}</a>
+
+      <button class="cart-product__delete">
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 12L7 7M12 12L17 17M12 12L17 7M12 12L7 17"
+            stroke="black"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
     </div>
     <div class="cart-product__footer">
       <div class="cart-product__counter cart-counter">
-        <button class="cart-counter__button button" @click="decrease">-</button>
+        <button
+          class="cart-counter__button button"
+          :disabled="isDisabled"
+          @click="decrease"
+        >
+          <svg
+            data-name="Layer 2"
+            id="bbb65397-f8ad-414f-bfe7-43e2b5687c88"
+            viewBox="0 0 35 35"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            aria-hidden="true"
+          >
+            <path
+              d="M33.5,18.75H1.5a1.25,1.25,0,0,1,0-2.5h32a1.25,1.25,0,0,1,0,2.5Z"
+            />
+          </svg>
+        </button>
 
         <input type="text" class="cart-counter__input" v-model="counter" />
 
-        <button class="cart-counter__button button" @click="increase">+</button>
+        <button class="cart-counter__button button" @click="increase">
+          <svg
+            data-name="Layer 2"
+            id="ab635b81-4e6c-4835-8954-fd99216bc317"
+            viewBox="0 0 35 35"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            aria-hidden="true"
+          >
+            <path
+              d="M33.5,18.75H1.5a1.25,1.25,0,0,1,0-2.5h32a1.25,1.25,0,0,1,0,2.5Z"
+            />
+            <path
+              d="M17.5,34.75a1.25,1.25,0,0,1-1.25-1.25V1.5a1.25,1.25,0,0,1,2.5,0v32A1.25,1.25,0,0,1,17.5,34.75Z"
+            />
+          </svg>
+        </button>
       </div>
 
       <div class="cart-product__coast">
@@ -60,15 +111,19 @@ export default {
     totalPrice() {
       return parseFloat(this.price) * parseFloat(this.counter);
     },
+    isDisabled() {
+      return this.counter <= 1;
+    },
   },
   methods: {
+    productById(id) {
+      return this.$store.getters["products/getProductById"](id);
+    },
     increase() {
-      this.counter++;
+      this.$emit("increase");
     },
     decrease() {
-      if (this.counter > 1) {
-        this.counter--;
-      }
+      this.$emit("decrease");
     },
   },
   mounted() {
@@ -79,6 +134,10 @@ export default {
 
 <style lang="scss" scoped>
 .cart-product {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-bottom: 6px;
+  padding: 16px 8px 0;
+
   &__body {
     position: relative;
     display: flex;
@@ -91,20 +150,37 @@ export default {
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    max-width: 100%;
-    max-height: 100%;
     width: 96px;
     height: 96px;
     margin-right: 16px;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 
   &__title {
     flex-grow: 1;
     display: block;
+    font-family: "Roboto";
+    font-weight: 500;
     margin-bottom: 8px;
-    font-size: 14px;
+    font-size: 16px;
     color: #221f1f;
     text-decoration: none;
+    margin-top: 24px;
+    margin-left: 8px;
+  }
+
+  &__delete {
+    width: 46px;
+    height: 46px;
+    background-color: #fffc;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
   }
 
   &__footer {
@@ -112,6 +188,7 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
+    align-items: center;
     padding-top: 16px;
     padding-bottom: 16px;
   }
@@ -158,7 +235,21 @@ export default {
     width: 40px;
     height: 40px;
     font-size: 16px;
-    padding: 0;
+    padding: 12px;
+    cursor: pointer;
+    background-color: hsla(0, 0%, 100%, 0.9);
+    color: #221f1f;
+
+    svg {
+      fill: #086ec7;
+      transition-duration: 0.2s;
+      transition-property: fill;
+      transition-timing-function: ease-in-out;
+    }
+  }
+
+  &__button:disabled svg {
+    fill: #d2d2d2;
   }
 }
 

@@ -4,6 +4,7 @@ export const state = () => ({
 
  export const getters =  {
     getCart: state => state.cart,
+    getItemsInCart: state => state.cart.products,
  }
  
  export const mutations  = {
