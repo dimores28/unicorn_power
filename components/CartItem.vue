@@ -9,7 +9,7 @@
         title
       }}</a>
 
-      <button class="cart-product__delete">
+      <button class="cart-product__delete" @click="remove">
         <svg
           fill="none"
           height="24"
@@ -102,6 +102,11 @@ export default {
       default: 0,
     },
   },
+  emits:{
+    "increase": null,
+    "decrease": null,
+    "remove": null,
+  },
   data() {
     return {
       counter: 1,
@@ -124,6 +129,9 @@ export default {
     },
     decrease() {
       this.$emit("decrease");
+    },
+    remove(){
+      this.$emit("remove");
     },
   },
   mounted() {
