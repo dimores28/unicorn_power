@@ -12,6 +12,7 @@
       :enable="inProccess(prod.productId)"
       @increase="inc({ id: prod.productId, cnt: prod.quantity })"
       @decrease="dec({ id: prod.productId, cnt: prod.quantity })"
+      @remove="removeItem(prod.productId)"
     />
 
     <div class="cart-footer">
@@ -67,6 +68,9 @@ export default {
     },
     inProccess(id) {
       return this.$store.getters["cart/inProccess"](id);
+    },
+    removeItem(productId) {
+      this.$store.dispatch("cart/remove", productId);
     },
   },
 };

@@ -23,7 +23,10 @@ export const state = () => ({
 	},
 	endProccess(state, rid){
 		state.proccessId = state.proccessId.filter(id => id !== rid);
-	}
+	},
+   remove(state, id){
+      state.cart.products = state.cart.products.filter(prod => prod.productId !== id)
+   }
 
  }
  
@@ -50,4 +53,19 @@ export const state = () => ({
 
       commit('endProccess', id);
     },
+    async remove({ state, commit }, id ){
+      commit('startProccess', id);
+
+      const cart = await this.$axios.$put(`https://fakestoreapi.com/carts/${state.cart?.id}`, {
+         userId:state.cart?.userId,
+         date:state.cart?.date,
+         products:state.cart?.products
+     });
+
+     if(cart) {
+      commit("remove", id);
+     }
+
+      commit('endProccess', id);
+    }
  }
