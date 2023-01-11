@@ -31,7 +31,7 @@
       <div class="cart-product__counter cart-counter">
         <button
           class="cart-counter__button button"
-          :disabled="isDisabled"
+          :disabled="isDisabled || enable"
           @click="decrease"
         >
           <svg
@@ -49,9 +49,13 @@
           </svg>
         </button>
 
-        <input type="text" class="cart-counter__input" v-model="counter" />
+        <input type="text" class="cart-counter__input" v-model="quantity" />
 
-        <button class="cart-counter__button button" @click="increase">
+        <button
+          class="cart-counter__button button"
+          :disabled="enable"
+          @click="increase"
+        >
           <svg
             data-name="Layer 2"
             id="ab635b81-4e6c-4835-8954-fd99216bc317"
@@ -101,11 +105,15 @@ export default {
       tupe: Number,
       default: 0,
     },
+    enable: {
+      tupe: Boolean,
+      default: false,
+    },
   },
-  emits:{
-    "increase": null,
-    "decrease": null,
-    "remove": null,
+  emits: {
+    increase: null,
+    decrease: null,
+    remove: null,
   },
   data() {
     return {
@@ -114,10 +122,10 @@ export default {
   },
   computed: {
     totalPrice() {
-      return parseFloat(this.price) * parseFloat(this.counter);
+      return (parseFloat(this.price) * parseFloat(this.quantity)).toFixed(2);
     },
     isDisabled() {
-      return this.counter <= 1;
+      return this.quantity < 2;
     },
   },
   methods: {
@@ -130,7 +138,7 @@ export default {
     decrease() {
       this.$emit("decrease");
     },
-    remove(){
+    remove() {
       this.$emit("remove");
     },
   },

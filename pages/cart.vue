@@ -9,8 +9,9 @@
       :price="productById(prod.productId).price"
       :productId="prod.productId"
       :quantity="prod.quantity"
-      @increase="inc({id:prod.productId, cnt: prod.quantity})"
-      @decrease="dec({id:prod.productId, cnt: prod.quantity})"
+      :enable="inProccess(prod.productId)"
+      @increase="inc({ id: prod.productId, cnt: prod.quantity })"
+      @decrease="dec({ id: prod.productId, cnt: prod.quantity })"
     />
 
     <div class="cart-footer">
@@ -51,18 +52,21 @@ export default {
         arr.push(rezult);
       });
 
-      return arr.reduce((sum, current) => sum + current, 0).toFixed(2);;
+      return arr.reduce((sum, current) => sum + current, 0).toFixed(2);
     },
   },
   methods: {
     productById(id) {
       return this.$store.getters["products/getProductById"](id);
     },
-    inc({id, cnt}){
-      this.$store.dispatch("cart/setCnt",{id, cnt: cnt + 1})
+    inc({ id, cnt }) {
+      this.$store.dispatch("cart/setCnt", { id, cnt: cnt + 1 });
     },
-    dec({id, cnt}){
-      this.$store.dispatch("cart/setCnt",{id, cnt: cnt - 1})
+    dec({ id, cnt }) {
+      this.$store.dispatch("cart/setCnt", { id, cnt: cnt - 1 });
+    },
+    inProccess(id) {
+      return this.$store.getters["cart/inProccess"](id);
     },
   },
 };
