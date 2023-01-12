@@ -35,7 +35,13 @@ import CartItem from "@/components/CartItem.vue";
 export default {
   name: "cart",
   async fetch({ store }) {
-    await store.dispatch("cart/loadCart");
+    if (!store.getters["products/getProductsAll"]) {
+      await store.dispatch("products/all");
+    }
+
+    if (!store.getters["cart/getCart"]) {
+      await store.dispatch("cart/loadCart");
+    }
   },
   components: {
     CartItem,

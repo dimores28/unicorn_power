@@ -35,10 +35,11 @@ import ProductCard from "@/components/CardProduct.vue";
 export default {
   name: "products-list",
   async fetch({ store }) {
-    if (!store.getters.products) {
+    if (!store.getters["products/getProductsAll"]) {
       await store.dispatch("products/all");
     }
-    if (!store.getters["category/category"]) {
+
+    if (!store.getters["category/getAllCategories"]) {
       await store.dispatch("category/AllCategories");
     }
   },

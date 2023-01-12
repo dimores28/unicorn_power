@@ -1,5 +1,5 @@
 export const state = () => ({
-   category: []
+   category: null,
 })
 
 export const getters =  {
