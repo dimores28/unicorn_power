@@ -1,13 +1,13 @@
 <template>
   <div class="cart-product">
     <div class="cart-product__body">
-      <a :href="`/products/${productId}`" class="cart-product__picture">
+      <nuxt-link :to="`/products/${productId}`" class="cart-product__picture">
         <img :src="imgSrc" :alt="title" />
-      </a>
+      </nuxt-link>
 
-      <a :href="`/products/${productId}`" class="cart-product__title">{{
+      <nuxt-link :to="`/products/${productId}`" class="cart-product__title">{{
         title
-      }}</a>
+      }}</nuxt-link>
 
       <button class="cart-product__delete" @click="remove">
         <svg

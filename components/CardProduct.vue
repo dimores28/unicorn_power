@@ -14,6 +14,7 @@
     </div>
 
     <div class="card__price">Preice: {{ price }}</div>
+    <button class="card__btn" @click.stop>Buy</button>
   </div>
 </template>
 
@@ -131,6 +132,16 @@ export default {
     color: #646464;
     margin-top: auto;
     padding-top: 16px;
+  }
+
+  &__btn {
+    margin-top: 14px;
+    border: none;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #4caf50;
+    cursor: pointer;
   }
 }
 </style>
